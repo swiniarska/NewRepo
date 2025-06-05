@@ -1,0 +1,41 @@
+﻿@page "/ToDoList"
+@inject HttpClient Http
+<link href="ToDoList.css" rel="stylesheet" />
+
+<PageTitle>Lista do zrobienia</PageTitle>
+
+<body>
+	<h1>Lista rzeczy do zrobienia</h1>
+
+	<p>Tutaj możesz zrobić spis wszystkich rzeczy do naprawy w swojej Audii, a jak nie masz nic do naprawy to kłamiesz :p</p>
+
+	<input @bind="task" placeholder="wpisz zadanie" />
+	<button @onclick="addTask">Dodaj</button>
+	<ul>
+		@foreach (var task in tasks)
+		{
+			<li>
+				@task
+				<button @onclick="(() => RemoveTask(task))" class="btn-delete">X</button>
+			</li>
+		}
+	</ul>
+</body>
+
+@code {
+	string task = "";
+	List<string> tasks = new();
+	void addTask()
+	{
+		if (!string.IsNullOrWhiteSpace(task))
+		{
+			tasks.Add(task);
+			task = "";
+		}
+	}
+
+	void RemoveTask(string task)
+	{
+		tasks.Remove(task);
+	}
+}
